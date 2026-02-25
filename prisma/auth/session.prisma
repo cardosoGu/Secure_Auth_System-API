@@ -1,0 +1,10 @@
+model Session {
+  id               String   @id @default(uuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshToken     String   @unique
+  refreshExpiresAt DateTime
+  clientIp         String
+  userAgent        String
+  createdAt        DateTime @default(now())
+}

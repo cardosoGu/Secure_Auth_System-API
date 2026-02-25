@@ -1,0 +1,15 @@
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  password      String?        // nullable pois OAuth não tem senha
+  name          String
+  avatarUrl     String?
+  provider      String         @default("local")
+  providerId    String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  sessions      Session[]
+  activeLogs    ActiveLog[]
+  pendingAuths  PendingAuth[]
+  oauthAccounts OAuthAccount[]
+}

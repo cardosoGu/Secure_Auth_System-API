@@ -1,0 +1,11 @@
+model ActiveLog {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String   // 'register' | 'login'
+  clientIp  String
+  userAgent String
+  status    String   // 'success' | 'failed'
+  reason    String?
+  createdAt DateTime @default(now())
+}

@@ -1,0 +1,10 @@
+model RateLimit {
+  id        String   @id @default(uuid())
+  clientIp  String
+  route     String
+  hits      Int      @default(1)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@unique([clientIp, route])
+}

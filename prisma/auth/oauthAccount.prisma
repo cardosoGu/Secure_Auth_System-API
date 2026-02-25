@@ -1,0 +1,10 @@
+model OAuthAccount {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider   String   // 'github' | 'google'
+  providerId String
+  createdAt  DateTime @default(now())
+
+  @@unique([provider, providerId])
+}

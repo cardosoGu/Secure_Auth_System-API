@@ -1,0 +1,12 @@
+model PendingAuth {
+  id           String    @id @default(uuid())
+  userId       String?
+  user         User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  email        String
+  codeHash     String
+  passwordHash String
+  expiresAt    DateTime
+  usedAt       DateTime?
+  createdAt    DateTime  @default(now())
+}
