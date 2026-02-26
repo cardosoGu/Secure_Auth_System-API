@@ -5,6 +5,7 @@ import helmet from '@fastify/helmet';
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
 import { env } from './config/env.js';
 import { authRoutes } from './modules/auth/routes/auth.route.js';
+import { oauthRoutes } from './modules/auth/routes/oauth.route.js';
 
 export async function buildApp() {
   const app = Fastify({
@@ -33,6 +34,7 @@ export async function buildApp() {
   await app.register(cookie);
 
   // Routes
+  app.register(oauthRoutes, { prefix: '/api/auth/oauth' });
   await app.register(authRoutes, { prefix: '/api/auth' });
 
   // Error handler

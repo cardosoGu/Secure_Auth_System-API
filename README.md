@@ -134,6 +134,13 @@ POST /api/auth/refresh
   → Retorna 200
 ```
 
+### Rota visualizacao de usuario logado
+
+```
+GET /api/auth/me
+  → Rota destinada para fins de desenvolvimento
+```
+
 ### Logout
 
 ```
@@ -196,7 +203,6 @@ RateLimit      → controle de requisições por IP/rota
 
 ```bash
 git clone https://github.com/seu-usuario/auth-service.git
-cd auth-service
 ```
 
 ### 2. Instale as dependências
@@ -205,33 +211,7 @@ cd auth-service
 npm install
 ```
 
-### 3. Configure as variáveis de ambiente
-
-```bash
-cp .env.example .env
-```
-
-```env
-DATABASE_URL="postgresql://usuario:senha@localhost:5433/authdb"
-PORT=3000
-
-# JWT
-JWT_ACCESS_SECRET="seu_secret_aqui"
-JWT_REFRESH_SECRET="seu_secret_aqui"
-JWT_ACCESS_EXPIRES_IN="15m"
-JWT_REFRESH_EXPIRES_IN="7d"
-
-# Email (Gmail)
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=465
-SMTP_USER=seuemail@gmail.com
-SMTP_PASS=sua_senha_de_app
-SMTP_SECURE=true
-
-# Ambiente
-NODE_ENV="development"
-LOG_LEVEL="info"
-```
+### 3. Configure as variáveis de ambiente igual ao .env.example
 
 ### 4. Suba o banco com Docker
 
@@ -271,14 +251,13 @@ npm run dev
 | GET    | `/api/auth/oauth/github/callback` | Callback GitHub                    | ❌   |
 | GET    | `/api/auth/oauth/google`          | Login com Google                   | ❌   |
 | GET    | `/api/auth/oauth/google/callback` | Callback Google                    | ❌   |
-| GET    | `/health`                         | Health check da API                | ❌   |
+| GET    | `/api/auth/me`                    | Info do user logado                | ✅   |
 
 ---
 
 ## 👨‍💻 Autor
 
-**Gustavo Cardoso**  
-Desenvolvedor Backend em formação
+**Gustavo Cardoso**
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/seu-perfil)
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white)](https://github.com/seu-usuario)

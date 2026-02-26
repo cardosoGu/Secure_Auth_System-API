@@ -14,8 +14,21 @@ export async function loginController(
   const { email, password } = req.body;
 
   const user = await findUniqueByEmail(email);
-  if (!user || !user.password) {
-    return reply.status(401).send({ success: false, message: 'Invalid credentials' });
+  if (!user) {
+    return reply.status(401).send({ success: false, message: 'User not Found' });
+  }
+
+  if (!user.password) {
+    const code = await createVerificationCode(email, password, user.name);
+
+    await mailer.sendMail({
+      from: env.SMTP_USER,
+      to: email,
+      subject: 'Verification code',
+      html: verificationCodeTemplate(code),
+    });
+
+    return reply.status(200).send({ success: true, message: 'Verification code sent to email' });
   }
 
   const passwordMatch = await comparePassword(password, user.password);

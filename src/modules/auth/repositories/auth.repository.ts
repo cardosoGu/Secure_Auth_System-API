@@ -6,7 +6,38 @@ export async function findUniqueByEmail(email: string) {
 }
 
 export async function createUser(data: { email: string; password: string; name: string }) {
-  return prisma.user.create({ data });
+  return prisma.user.create({ data: { ...data, email: data.email.toLowerCase() } });
+}
+
+export async function updateUserPassword(id: string, password: string) {
+  return prisma.user.update({
+    where: { id },
+    data: { password },
+  });
+}
+
+// ===== OAUTH =====
+export async function createOAuthUser(data: {
+  email: string;
+  name: string;
+  avatarUrl: string | null;
+}) {
+  return prisma.user.create({ data: { ...data, email: data.email.toLowerCase() } });
+}
+
+export async function findOAuthAccount(provider: string, providerId: string) {
+  return prisma.oAuthAccount.findUnique({
+    where: { provider_providerId: { provider, providerId } },
+    include: { user: true },
+  });
+}
+
+export async function createOAuthAccount(data: {
+  userId: string;
+  provider: string;
+  providerId: string;
+}) {
+  return prisma.oAuthAccount.create({ data });
 }
 
 // ===== PENDING AUTH =====

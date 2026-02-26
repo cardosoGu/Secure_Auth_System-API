@@ -6,6 +6,7 @@ import {
   createUser,
   createSession,
   createActiveLog,
+  updateUserPassword,
 } from '../repositories/auth.repository.js';
 import {
   generateAccessToken,
@@ -33,6 +34,7 @@ export async function verifyController(
   const isNewRegistration = !existingUser;
 
   let user = existingUser;
+  const isOAuthUser = existingUser && !existingUser.password;
 
   if (isNewRegistration) {
     user = await createUser({
@@ -40,6 +42,8 @@ export async function verifyController(
       password: pendingAuth.passwordHash,
       name: email.split('@')[0],
     });
+  } else if (isOAuthUser) {
+    user = await updateUserPassword(existingUser.id, pendingAuth.passwordHash);
   }
 
   const accessToken = generateAccessToken(user!.id);
